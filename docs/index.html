@@ -137,7 +137,7 @@
             LoadNewPlan();
             CheckTime();
             
-            setInterval(() => { CheckTime(); }, 500);
+            setInterval(() => { CheckTime(); }, 2000);
         });
 
         let lessonIndex = [
@@ -200,7 +200,7 @@
         /**
          * @type {Date}
          * */
-        var time = GetDate([07, 30, 00]);
+        var time = new Date();
 
         function CheckTime() {
             //let timeObj = new Date();
@@ -245,11 +245,17 @@
                 let lessonEnd = GetDate([parseInt(lesson.end.split(":")[0]), parseInt(lesson.end.split(":")[1]), 0]);
                 if (time >= lessonStart && time <= lessonEnd) {
                     IsBreak = false;
-                    document.getElementById("time").innerHTML = `Noch ${Math.round((lessonEnd - time) / (1000 * 60))} min <b>Unterricht</b>`;
+                    let diff = (lessonEnd - time) / (1000 * 60);
+                    let min = parseInt(diff);
+                    let sec = (diff - min) * 60;
+                    document.getElementById("time").innerHTML = `Noch ${min} min ${Math.round(sec)} sec <b>Unterricht</b>`;
                     HasPlayedGong = false;
                 } else {
                     IsBreak = true;
-                    document.getElementById("time").innerHTML = `Noch ${Math.round((lessonStart - time) / (1000 * 60))} min <b>Pause</b>`;
+                    let diff = (lessonStart - time) / (1000 * 60);
+                    let min = parseInt(diff);
+                    let sec = (diff - min) * 60;
+                    document.getElementById("time").innerHTML = `Noch ${min} min ${Math.round(sec)} sec <b>Pause</b>`;
                 }
 
                 let lastLesson = CurrentLessonIndex == 0 ? null : lessonIndex[CurrentLessonIndex - 1];
@@ -278,7 +284,9 @@
                 document.getElementById("time").innerHTML = "Bis morgen!";
             }
 
-            time = new Date(time.getTime() + 1000 * 60 * 1);
+            //time = new Date(time.getTime() + 1000 * 60 * 1);
+
+            time = new Date();
 
         }
         function GetDate(array) {
@@ -303,7 +311,7 @@
     </script>
 </head>
 <body>
-    <audio id="gong" src="Schulgong.mp3" preload="auto"></audio>
+    <audio id="gong" src="Schulgong.mp3" autoplay preload="auto"></audio>
     <div class="card" style="min-height: calc(100vh - 50px);" data-background="rgb(255, 255, 255)">
         <div>
             <a name="me" class="anchor"></a>
