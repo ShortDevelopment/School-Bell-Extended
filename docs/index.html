@@ -248,8 +248,10 @@
                     let diff = (lessonEnd - time) / (1000 * 60);
                     let min = parseInt(diff);
                     let sec = (diff - min) * 60;
-                    document.getElementById("time").innerHTML = `Noch ${min} min ${Math.round(sec)} sec <b>Unterricht</b>`;
-                    HasPlayedGong = false;
+                    document.getElementById("time").innerHTML = `Noch ${min} min ${Math.round(sec)} sec <b>Unterricht</b>`;                    
+                    if (time > lessonStart && time <= lessonEnd) {
+                        HasPlayedGong = false;
+                    }
                 } else {
                     IsBreak = true;
                     let diff = (lessonStart - time) / (1000 * 60);
