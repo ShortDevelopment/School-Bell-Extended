@@ -249,7 +249,7 @@
                     let min = parseInt(diff);
                     let sec = (diff - min) * 60;
                     document.getElementById("time").innerHTML = `Noch ${min} min ${Math.round(sec)} sec <b>Unterricht</b>`;                    
-                    if (time > lessonStart && time <= lessonEnd) {
+                    if (time.getTime() > (lessonStart.getTime() + 1000 * 60) && time <= lessonEnd) {
                         HasPlayedGong = false;
                     }
                 } else {
@@ -270,7 +270,9 @@
                     if (!HasPlayedGong) { PlayGong(); }
                     HasPlayedGong = true;
                 } else {
-                    HasPlayedGong = false;
+                    if (time > (lastlessonEnd.getTime() + 1000 * 60) && time < lessonStart) {
+                        HasPlayedGong = false;
+                    }
                 }
 
                 document.getElementById("lessonIndex").innerHTML = IsBreak ? `Pause => ${CurrentLessonIndex + 1}. Stunde` : `${CurrentLessonIndex + 1}. Stunde`;
@@ -286,7 +288,7 @@
                 document.getElementById("time").innerHTML = "Bis morgen!";
             }
 
-            //time = new Date(time.getTime() + 1000 * 60 * 1);
+            // time = new Date(time.getTime() + 1000 * 1);
 
             time = new Date();
 
